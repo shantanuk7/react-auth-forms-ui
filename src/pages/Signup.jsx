@@ -17,6 +17,7 @@ export default function Signup() {
                 <CustomInput type="name" label="Name" name="name" />
                 <CustomInput type="email" label="Email" name="email" />
                 <CustomInput type="password" label="Password" name="password" />
+                <CustomInput type="password" label="Confirm Password" name="confirmPassword" />
                 <button type='submit'>Submit</button>
             </Form>
         </Formik>
