@@ -1,5 +1,8 @@
 import { Form, Formik, } from 'formik'
 import CustomInput from '../components/CustomInput'
+import { useContext } from 'react';
+import UserContext from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignupForm() {
 
@@ -9,6 +12,9 @@ export default function SignupForm() {
         password: "",
         confirmPassword:""
     }
+
+    const {setUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
     const validate = (values) => {
         const errors = {};
@@ -44,7 +50,11 @@ export default function SignupForm() {
         return errors;
     };
 
-    const onSubmit = values => { console.log('form data', values) }
+    const onSubmit = values => {        
+        setUser(values);
+        navigate("/login");
+    }
+
     return (
         <Formik
             initialValues={initialValues}
