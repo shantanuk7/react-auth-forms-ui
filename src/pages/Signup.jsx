@@ -18,7 +18,7 @@ export default function Signup() {
                 <CustomInput type="email" label="Email" name="email" />
                 <CustomInput type="password" label="Password" name="password" />
                 <CustomInput type="password" label="Confirm Password" name="confirmPassword" />
-                <button type='submit'>Submit</button>
+                <button type='submit' className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer'>Submit</button>
             </Form>
         </Formik>
     </div>
