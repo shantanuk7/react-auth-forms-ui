@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import UserContext from "../context/UserContext"
+import { Link } from "react-router-dom";
 
 export default function Home(){
     const {user} = useContext(UserContext);
@@ -17,6 +18,11 @@ export default function Home(){
                 (
                     <div>
                         Welcome! This is the Homepage!
+                        <div>
+                            <Link to={"/signup"}>Signup</Link>
+                            {" "}
+                            <Link to={"/login"}>Login</Link>
+                        </div>
                     </div>
                 )}
             </div>
