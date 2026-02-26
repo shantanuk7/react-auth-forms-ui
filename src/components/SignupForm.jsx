@@ -1,6 +1,5 @@
 import { ErrorMessage, Form, Formik, } from 'formik'
 import CustomInput from '../components/CustomInput'
-import { useContext } from 'react';
 import UserContext from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -14,7 +13,6 @@ export default function SignupForm() {
         confirmPassword:""
     }
 
-    const {setUser} = useContext(UserContext);
     const navigate = useNavigate();
 
     const validate = (values) => {
@@ -51,8 +49,7 @@ export default function SignupForm() {
         return errors;
     };
 
-    const onSubmit = async (values) => {        
-        setUser(values);
+    const onSubmit = async (values) => {
         try {
             const apiUrl = import.meta.env.VITE_API_URL;
             await axios.post(`${apiUrl}/auth/register`, values);

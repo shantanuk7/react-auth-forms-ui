@@ -6,7 +6,7 @@ export const ProtectedRoute = () => {
   const { token } = useContext(UserContext);
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;
