@@ -1,66 +1,83 @@
-import { Form, Formik } from 'formik'
-import CustomInput from '../components/CustomInput'
-import { useContext } from 'react'
-import UserContext from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
+    import { Form, Formik } from 'formik'
+    import CustomInput from '../components/CustomInput'
+    import { useContext, useEffect } from 'react'
+    import UserContext from '../context/UserContext'
+    import { useNavigate } from 'react-router-dom'
+    import axios from 'axios'
 
-export default function LoginForm() {
+    export default function LoginForm() {
 
-    const initialValues = {
-        email: "",
-        password: ""
-    }
-
-    const { user } = useContext(UserContext)
-    const navigate = useNavigate()
-
-    const validate = (values) => {
-        const errors = {}
-
-        if (!values.email) {
-            errors.email = 'Required'
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address'
+        const initialValues = {
+            email: "",
+            password: ""
         }
+        
+        const navigate = useNavigate()
+        const { user } = useContext(UserContext);
 
-        if (!values.password) {
-            errors.password = 'Required'
-        }
-
-        if (user) {
-            if (values.email !== user.email) {
-                errors.email = 'Email not found'
+        useEffect(() => {
+            if(user) {
+                navigate("/");
             }
-            if (values.password !== user.password) {
-                errors.password = 'Incorrect password'
+        }, [user, navigate])
+        
+        const validate = (values) => {
+            const errors = {}   
+
+            if (!values.email) {
+                errors.email = 'Required'
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address'
+            }
+
+            if (!values.password) {
+                errors.password = 'Required'
+            }
+
+            return errors
+        }
+
+        const onSubmit = async (values, { setErrors }) => {
+            try {
+                const apiUrl = import.meta.env.VITE_API_URL;
+                const payload = {
+                    email: values.email,
+                    password: values.password
+                }
+                const response = await axios.post(`${apiUrl}/auth/login`, payload);
+                const data = response.data.data;
+                localStorage.setItem("token", data.token);
+                console.log(response);
+                navigate("/");
+            } catch (error) {
+                console.error("Error submitting the form data: " + error);
+                if(error?.response?.status === 401) {
+                    setErrors({password: "Invalid email or password"});
+                }
             }
         }
 
-        return errors
+        return (
+            <Formik
+                initialValues={initialValues}
+                validate={validate}
+                onSubmit={onSubmit}
+                validateOnBlur={false}
+                validateOnChange={false}
+            >
+            {({ isSubmitting }) => (
+                <Form>
+                    <CustomInput type="email" label="Email" name="email" />
+                    <CustomInput type="password" label="Password" name="password" />
+                    <button
+                        type='submit'
+                        className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer'
+                        disabled={isSubmitting}
+                    >
+                        Login
+                    </button>
+                </Form>
+            )}
+            </Formik>
+        )
     }
-
-    const onSubmit = () => {
-        navigate("/")
-    }
-
-    return (
-        <Formik
-            initialValues={initialValues}
-            validate={validate}
-            onSubmit={onSubmit}
-            validateOnBlur={false}
-            validateOnChange={false}
-        >
-            <Form>
-                <CustomInput type="email" label="Email" name="email" />
-                <CustomInput type="password" label="Password" name="password" />
-                <button
-                    type='submit'
-                    className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer'
-                >
-                    Login
-                </button>
-            </Form>
-        </Formik>
-    )
-}

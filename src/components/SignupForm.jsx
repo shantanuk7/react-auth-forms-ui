@@ -1,4 +1,4 @@
-import { Form, Formik, } from 'formik'
+import { ErrorMessage, Form, Formik, } from 'formik'
 import CustomInput from '../components/CustomInput'
 import { useContext } from 'react';
 import UserContext from '../context/UserContext';
@@ -57,7 +57,7 @@ export default function SignupForm() {
             const apiUrl = import.meta.env.VITE_API_URL;
             await axios.post(`${apiUrl}/auth/register`, values);
             navigate("/login");
-        } catch (error) {   
+        } catch (error) {
             console.error("Error submitting the form data: " + error);
         }
 
