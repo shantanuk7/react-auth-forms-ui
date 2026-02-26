@@ -1,0 +1,27 @@
+import { ErrorMessage, Field } from 'formik'
+import React from 'react'
+import TextError from './TextError'
+
+const CustomSelectInput = (props) => {
+   const { label, name, options } = props
+   return (
+      <div className="my-2">
+         <label htmlFor={name} className="block text-xs font-medium text-gray-700"> {label} </label>
+            <Field
+               name={name}
+               id={name}
+               as="select"
+               className="mt-1 w-full rounded-md border border-gray-200 shadow-sm sm:text-sm py-2"
+            > 
+               {options.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+               ))}
+            </Field>
+         <ErrorMessage name={name} component={TextError} /> 
+      </div>
+   )
+}
+
+export default CustomSelectInput
+            
+            
