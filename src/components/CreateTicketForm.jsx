@@ -1,8 +1,6 @@
 import { ErrorMessage, Form, Formik} from 'formik'
 import CustomInput from '../components/CustomInput'
-import UserContext from '../context/UserContext';
 import axios from 'axios';
-import CustomSelectInput from './CustomSelectInput';
 import { useState } from 'react';
 
 export default function CreateTicketForm() {
@@ -12,12 +10,7 @@ export default function CreateTicketForm() {
     const initialValues = {
         title: "",
         description: "",
-        status: "OPEN",
-        priority: "LOW"
     }
-
-    const status = ["OPEN", "IN_PROGRESS", "CLOSED"];
-    const priority = ["LOW", "MEDIUM", "HIGH"];
 
     const validate = (values) => {
         const errors = {};
@@ -40,18 +33,6 @@ export default function CreateTicketForm() {
             errors.description = `Description must be less than ${maxDescriptionLength} characters`;
         } else if (values.description.length < minDescriptionLength){
             errors.description = `Description must be greater than ${minDescriptionLength} character`
-        }
-
-        if (!values.status) {
-            errors.status = 'Required';
-        } else if (!status.includes(values.status)) {
-            errors.status = 'Invalid status';
-        }
-
-        if (!values.priority) {
-            errors.priority = 'Required';
-        } else if (!priority.includes(values.priority)) {
-            errors.priority = 'Invalid priority';
         }
 
         return errors;
@@ -92,8 +73,6 @@ export default function CreateTicketForm() {
             <Form>
                 <CustomInput type="text" label="Title" name="title" />
                 <CustomInput type="textarea" label="Description" name="description" />
-                <CustomSelectInput type="select" label="Status" name="status" options={status} />
-                <CustomSelectInput type="select" label="Priority" name="priority" options={priority} />
                 <button type='submit' className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer' disabled={isSubmitting}>Submit</button>
                 {isSubmittedSuccessfully && <p className='text-green-600 mt-2 text-center'>Ticket created successfully!</p>}
             </Form>)}
