@@ -11,7 +11,7 @@ const CustomInput = (props) => {
             name={name}
             id={name}
             type={type}
-            className="mt-1 w-full rounded-md border border-gray-200 shadow-sm sm:text-sm py-2"
+            className="mt-1 w-full rounded-md border border-gray-200 bg-white shadow-sm sm:text-sm p-2"
          />
          <ErrorMessage name={name} component={TextError} /> 
       </div>

@@ -13,14 +13,14 @@ export default function LoginForm() {
     }
     
     const navigate = useNavigate()
-    const { user } = useContext(UserContext);
+    const { token, setToken } = useContext(UserContext);
 
-    useEffect(() => {
-        if(user) {
+    useEffect(()=>{
+        if(token){
             navigate("/");
         }
-    }, [user, navigate])
-    
+    })
+
     const validate = (values) => {
         const errors = {}   
 
@@ -45,10 +45,13 @@ export default function LoginForm() {
                 password: values.password
             }
             const response = await axios.post(`${apiUrl}/auth/login`, payload);
-            const data = response.data.data;
-            localStorage.setItem("token", data.token);
+
+            const token = response.data.data.token;
+            localStorage.setItem("token", token);
             console.log(response);
-            navigate("/");
+
+            setToken(token);
+                navigate("/");
         } catch (error) {
             console.error("Error submitting the form data: " + error);
             if(error?.response?.status === 401) {
@@ -71,7 +74,7 @@ export default function LoginForm() {
                 <CustomInput type="password" label="Password" name="password" />
                 <button
                     type='submit'
-                    className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer'
+                    className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300'
                     disabled={isSubmitting}
                 >
                     Login
