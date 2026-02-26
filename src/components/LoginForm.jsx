@@ -1,8 +1,9 @@
 import { Form, Formik } from 'formik'
 import CustomInput from '../components/CustomInput'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import UserContext from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function LoginForm() {
 
@@ -10,12 +11,18 @@ export default function LoginForm() {
         email: "",
         password: ""
     }
-
-    const { user } = useContext(UserContext)
+    
     const navigate = useNavigate()
+    const { user } = useContext(UserContext);
 
+    useEffect(() => {
+        if(user) {
+            navigate("/");
+        }
+    }, [user, navigate])
+    
     const validate = (values) => {
-        const errors = {}
+        const errors = {}   
 
         if (!values.email) {
             errors.email = 'Required'
@@ -27,20 +34,27 @@ export default function LoginForm() {
             errors.password = 'Required'
         }
 
-        if (user) {
-            if (values.email !== user.email) {
-                errors.email = 'Email not found'
-            }
-            if (values.password !== user.password) {
-                errors.password = 'Incorrect password'
-            }
-        }
-
         return errors
     }
 
-    const onSubmit = () => {
-        navigate("/")
+    const onSubmit = async (values, { setErrors }) => {
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL;
+            const payload = {
+                email: values.email,
+                password: values.password
+            }
+            const response = await axios.post(`${apiUrl}/auth/login`, payload);
+            const data = response.data.data;
+            localStorage.setItem("token", data.token);
+            console.log(response);
+            navigate("/");
+        } catch (error) {
+            console.error("Error submitting the form data: " + error);
+            if(error?.response?.status === 401) {
+                setErrors({password: "Invalid email or password"});
+            }
+        }
     }
 
     return (
@@ -51,16 +65,19 @@ export default function LoginForm() {
             validateOnBlur={false}
             validateOnChange={false}
         >
+        {({ isSubmitting }) => (
             <Form>
                 <CustomInput type="email" label="Email" name="email" />
                 <CustomInput type="password" label="Password" name="password" />
                 <button
                     type='submit'
                     className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer'
+                    disabled={isSubmitting}
                 >
                     Login
                 </button>
             </Form>
+        )}
         </Formik>
     )
 }

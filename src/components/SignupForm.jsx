@@ -1,8 +1,9 @@
-import { Form, Formik, } from 'formik'
+import { ErrorMessage, Form, Formik, } from 'formik'
 import CustomInput from '../components/CustomInput'
 import { useContext } from 'react';
 import UserContext from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function SignupForm() {
 
@@ -50,9 +51,16 @@ export default function SignupForm() {
         return errors;
     };
 
-    const onSubmit = values => {        
+    const onSubmit = async (values) => {        
         setUser(values);
-        navigate("/login");
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL;
+            await axios.post(`${apiUrl}/auth/register`, values);
+            navigate("/login");
+        } catch (error) {
+            console.error("Error submitting the form data: " + error);
+        }
+
     }
 
     return (
@@ -62,14 +70,14 @@ export default function SignupForm() {
             onSubmit={onSubmit}
             validateOnBlur={false}
             validateOnChange={false}
-        >
+        >{({ isSubmitting }) => ( 
             <Form>
                 <CustomInput type="name" label="Name" name="name" />
                 <CustomInput type="email" label="Email" name="email" />
                 <CustomInput type="password" label="Password" name="password" />
                 <CustomInput type="password" label="Confirm Password" name="confirmPassword" />
-                <button type='submit' className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer'>Submit</button>
-            </Form>
+                <button type='submit' className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer' disabled={isSubmitting}>Submit</button>
+            </Form>)}
         </Formik>
     )
 }
