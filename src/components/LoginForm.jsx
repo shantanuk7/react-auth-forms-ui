@@ -74,7 +74,7 @@ export default function LoginForm() {
                 <CustomInput type="password" label="Password" name="password" />
                 <button
                     type='submit'
-                    className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer'
+                    className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300'
                     disabled={isSubmitting}
                 >
                     Login
