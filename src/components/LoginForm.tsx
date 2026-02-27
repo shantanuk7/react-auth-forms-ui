@@ -1,9 +1,10 @@
 import { Form, Formik } from 'formik'
-import CustomInput from '../components/CustomInput'
+import CustomInput from './CustomInput'
 import { useContext, useEffect } from 'react'
 import UserContext from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useUserContext } from '../hooks/useUserContext'
 
 export default function LoginForm() {
 
@@ -13,7 +14,7 @@ export default function LoginForm() {
     }
     
     const navigate = useNavigate()
-    const { token, setToken } = useContext(UserContext);
+    const { token, setToken } = useUserContext();
 
     useEffect(()=>{
         if(token){
