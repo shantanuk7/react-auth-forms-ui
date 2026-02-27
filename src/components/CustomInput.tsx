@@ -1,8 +1,13 @@
 import { ErrorMessage, Field } from 'formik'
 import React from 'react'
-import TextError from './TextError'
 
-const CustomInput = (props) => {
+type CustomInputProps = {
+   label: string;
+   name: string;
+   type: string;
+}
+
+const CustomInput = (props: CustomInputProps) => {
    const { label, name, type } = props
    return (
       <div className="my-2">
@@ -13,7 +18,7 @@ const CustomInput = (props) => {
             type={type}
             className="mt-1 w-full rounded-md border border-gray-200 bg-white shadow-sm sm:text-sm p-2"
          />
-         <ErrorMessage name={name} component={TextError} /> 
+         <ErrorMessage name={name} component="div" className='text-red-700 text-sm'/> 
       </div>
    )
 }

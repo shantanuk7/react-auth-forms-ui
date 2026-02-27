@@ -1,7 +1,12 @@
-import { ErrorMessage, Form, Formik} from 'formik'
-import CustomInput from '../components/CustomInput'
+import { ErrorMessage, Form, Formik, FormikErrors, FormikHelpers} from 'formik'
+import CustomInput from './CustomInput'
 import axios from 'axios';
 import { useState } from 'react';
+
+type CreateTicketFormValues = {
+    title: string,
+    description: string
+}
 
 export default function CreateTicketForm() {
 
@@ -12,8 +17,8 @@ export default function CreateTicketForm() {
         description: "",
     }
 
-    const validate = (values) => {
-        const errors = {};
+    const validate = (values: CreateTicketFormValues) => {
+        const errors: FormikErrors<CreateTicketFormValues> = {};
         const maxTitleLength = 100;
         const minTitleLength = 1;
         const maxDescriptionLength = 1000;
@@ -38,7 +43,7 @@ export default function CreateTicketForm() {
         return errors;
     };
 
-    const onSubmit = async (values, {resetForm}) => {
+    const onSubmit = async (values: CreateTicketFormValues, {resetForm}: FormikHelpers<CreateTicketFormValues>) => {
         try {
             const token = localStorage.getItem("token");
             
