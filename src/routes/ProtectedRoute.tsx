@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useUserContext } from "../hooks/useUserContext";
 
-export const ProtectedRoute = () => {
+const ProtectedRoute: React.FC = () => {
   const { token } = useUserContext();
 
   if (!token) {
@@ -10,3 +10,5 @@ export const ProtectedRoute = () => {
 
   return <Outlet />;
 };
+
+export { ProtectedRoute };

@@ -1,10 +1,12 @@
 import CreateTicketForm from "../components/CreateTicketForm";
 import Form from "../components/Form";
 
-export default function CreateTicket() {
+const CreateTicket: React.FC = () => {
   return (
     <Form formTitle="Create Ticket">
       <CreateTicketForm/>
     </Form>
   )
 }
+
+export default CreateTicket;

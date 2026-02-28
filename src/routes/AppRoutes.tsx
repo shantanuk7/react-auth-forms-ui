@@ -6,7 +6,7 @@ import CreateTicket from "../pages/CreateTicket";
 import NotFound from "../pages/NotFound";
 import { ProtectedRoute } from "./ProtectedRoute";
 
-export default function AppRoutes() {
+const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route element={<ProtectedRoute />}>
@@ -20,3 +20,5 @@ export default function AppRoutes() {
     </Routes>
   );
 }
+
+export default AppRoutes;

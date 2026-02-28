@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import SignupForm from "../components/SignupForm";
 import Form from "../components/Form";
 
-export default function Signup() {
+const Signup: React.FC = () => {
   return (
     <Form formTitle="Signup Form">
         <SignupForm />
@@ -15,3 +15,5 @@ export default function Signup() {
     </Form>
   );
 }
+
+export default Signup;
