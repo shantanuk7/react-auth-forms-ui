@@ -2,10 +2,10 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "./CustomInput";
-import { useUserContext } from "../hooks/useUserContext";
-import { LoginFormValues } from "../types/auth.types";
-import { validateLogin } from "../utils/auth.validations";
-import { loginUser } from "../services/auth.service";
+import { useUserContext } from "../../hooks/useUserContext";
+import { LoginFormValues } from "../../types/auth.types";
+import { validateLogin } from "../../utils/auth.validations";
+import { loginUser } from "../../services/auth.service";
 import axios, { AxiosError } from "axios";
 import { Bounce, toast } from "react-toastify";
 

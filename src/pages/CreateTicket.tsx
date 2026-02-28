@@ -1,5 +1,5 @@
-import CreateTicketForm from "../components/CreateTicketForm";
-import Form from "../components/Form";
+import CreateTicketForm from "../components/forms/CreateTicketForm";
+import Form from "../components/forms/Form";
 
 const CreateTicket: React.FC = () => {
   return (

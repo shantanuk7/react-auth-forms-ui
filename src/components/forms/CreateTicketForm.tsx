@@ -1,9 +1,9 @@
 import { Form, Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import CustomInput from "./CustomInput";
-import { CreateTicketFormValues } from "../types/ticket.types";
-import { validateCreateTicket } from "../utils/ticket.validations";
-import { createTicket } from "../services/ticket.services";
+import { CreateTicketFormValues } from "../../types/ticket.types";
+import { validateCreateTicket } from "../../utils/ticket.validations";
+import { createTicket } from "../../services/ticket.services";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";

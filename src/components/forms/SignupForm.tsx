@@ -1,9 +1,9 @@
 import { Formik, Form, FormikProps } from "formik";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "./CustomInput";
-import { validateSignup } from "../utils/auth.validations";
-import { registerUser } from "../services/auth.service";
-import { SignUpFormValues } from "../types/auth.types";
+import { validateSignup } from "../../utils/auth.validations";
+import { registerUser } from "../../services/auth.service";
+import { SignUpFormValues } from "../../types/auth.types";
 import { toast } from 'react-toastify';
 import { AxiosError } from "axios";
 
