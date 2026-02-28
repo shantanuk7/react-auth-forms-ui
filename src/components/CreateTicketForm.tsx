@@ -4,14 +4,20 @@ import CustomInput from "./CustomInput";
 import { CreateTicketFormValues } from "../types/ticket.types";
 import { validateCreateTicket } from "../utils/ticket.validations";
 import { createTicket } from "../services/ticket.services";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateTicketForm: React.FC = () => {
-    const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] =
-        useState(false);
 
     const initialValues: CreateTicketFormValues = {
         title: "",
         description: "",
+    };
+
+    const navigate = useNavigate();
+    const goToHomepage = () => {
+        navigate("/");
     };
 
     const onSubmit = async (
@@ -19,18 +25,18 @@ const CreateTicketForm: React.FC = () => {
         { resetForm }: FormikHelpers<CreateTicketFormValues>
     ) => {
         try {
-            const token = localStorage.getItem("token");
-
-            if (!token) return;
-
+            const token = localStorage.getItem("token")!;
+            
             const response = await createTicket(values, token);
 
             if (response.status === 201) {
-                setIsSubmittedSuccessfully(true);
+                toast.success("Ticket created successfully!");
                 resetForm();
             }
-        } catch (error) {
-            console.error("Error submitting the form data:", error);
+        } catch (error: unknown) {
+            if (error instanceof AxiosError) {
+                toast.error("Failed to create ticket.");
+            }
         }
     };
 
@@ -56,16 +62,18 @@ const CreateTicketForm: React.FC = () => {
                     />
                     <button
                         type="submit"
-                        className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer"
+                        className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
                         disabled={isSubmitting}
                     >
                         Submit
                     </button>
-                    {isSubmittedSuccessfully && (
-                        <p className="text-green-600 mt-2 text-center">
-                            Ticket created successfully!
-                        </p>
-                    )}
+                    <button
+                        type="button"
+                        onClick={goToHomepage}
+                        className="border border-gray-300 p-2 rounded-md mt-2 flex-1 hover:bg-white cursor-pointer w-full"
+                    >
+                        Go Back
+                    </button>
                 </Form>
             )}
         </Formik>
