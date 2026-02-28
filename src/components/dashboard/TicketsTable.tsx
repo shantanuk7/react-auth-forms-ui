@@ -1,33 +1,47 @@
+import useTickets from "../../hooks/useTickets";
 import TicketsTableItem from "./TicketsTableItem";
-
-const mockTickets = [
-    { id: 1, title: 'Issue with login', status: 'Open', createdAt: '01-01-2026' },
-    { id: 2, title: 'Payment not processing', status: 'In Progress', createdAt: '01-01-2026' },
-    { id: 3, title: 'Error on dashboard', status: 'Closed', createdAt: '01-01-2026' },
-];
 
 const headers = [
     { id: 'id', label: 'ID' },
     { id: 'title', label: 'Title' },
     { id: 'status', label: 'Status' },
     { id: 'createdAt', label: 'Created At' },
+    { id: 'action', label: 'Action' },
 ];
+const TicketsTable: React.FC = () => {
+    const { tickets, loading } = useTickets();
 
-const TicketsTable: React.FC= () => {
-    return <div>
-        <table className="min-w-full bg-white border border-gray-200">
-            <thead>
-                <tr>
-                    {headers.map(header => <th key={header.id} className="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">{header.label}</th>)}
-                    <th className="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {mockTickets.map((ticket, index) => <TicketsTableItem key={ticket.id} index={index + 1} id={ticket.id} title={ticket.title} status={ticket.status} createdAt={ticket.createdAt}/>)}
+    if (loading) return <div className="text-center py-8 text-gray-500">Loading...</div>;
 
-            </tbody>
-        </table>
-    </div>
-}
+    if (!tickets.length) return <div className="text-center py-8 text-gray-500">No tickets found.</div>;
+
+    return (
+        <div className="overflow-x-auto rounded-lg shadow border border-gray-200">
+            <table className="min-w-full bg-white">
+                <thead className="bg-gray-50">
+                    <tr>
+                        {headers.map(header => (
+                            <th key={header.id} className="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">
+                                {header.label}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                    {tickets.map((ticket, index) => (
+                        <TicketsTableItem
+                            key={ticket.id}
+                            index={index + 1}
+                            id={ticket.id}
+                            title={ticket.title}
+                            status={ticket.status}
+                            createdAt={(ticket.createdAt).slice(0,10)}
+                        />
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+};
 
 export default TicketsTable;
