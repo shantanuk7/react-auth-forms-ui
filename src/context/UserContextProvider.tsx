@@ -10,7 +10,7 @@ type Props = {
     children: React.ReactNode;
 }
 
-const UserContextProvider = ({ children }: Props) => {
+const UserContextProvider: React.FC<Props> = ({ children }: Props) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
 

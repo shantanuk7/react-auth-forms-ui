@@ -1,86 +1,58 @@
-import { ErrorMessage, Form, Formik, FormikErrors} from 'formik'
-import CustomInput from './CustomInput'
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Formik, Form, FormikProps } from "formik";
+import { useNavigate } from "react-router-dom";
+import CustomInput from "./CustomInput";
+import { validateSignup } from "../utils/auth.validations";
+import { registerUser } from "../services/auth.service";
+import { SignUpFormValues } from "../types/auth.types";
 
-type SignUpFormValues = {
-    name: string,
-    email: string,
-    password: string,
-    confirmPassword: string
-}
+const SignupForm: React.FC = () => {
+  const navigate = useNavigate();
 
-export default function SignupForm() {
+  const initialValues: SignUpFormValues = {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
 
-    const initialValues = {
-        name:"",
-        email: "",
-        password: "",
-        confirmPassword:""
+  const onSubmit = async (values: SignUpFormValues) => {
+    try {
+      await registerUser(values);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    const navigate = useNavigate();
+  return (
+    <Formik
+      initialValues={initialValues}
+      validate={validateSignup}
+      onSubmit={onSubmit}
+      validateOnBlur={false}
+      validateOnChange={false}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <CustomInput type="text" label="Name" name="name" />
+          <CustomInput type="email" label="Email" name="email" />
+          <CustomInput type="password" label="Password" name="password" />
+          <CustomInput
+            type="password"
+            label="Confirm Password"
+            name="confirmPassword"
+          />
+          <button
+            className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
-    const validate = (values: SignUpFormValues) => {
-        const errors: FormikErrors<SignUpFormValues> = {};
-        const maxNameLength = 100;
-        const minNameLength = 3;
-
-        if (!values.name) {
-            errors.name = 'Required';
-        } else if (values.name.length > maxNameLength) {
-            errors.name = `Name must be less than ${maxNameLength} characters`;
-        } else if (values.name.length < minNameLength){
-            errors.name = `Name must be greater than ${minNameLength} characters`
-        }
-
-        if (!values.email) {
-            errors.email = 'Required';
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address';
-        }
-
-        if (!values.password) {
-            errors.password = 'Required';
-        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(values.password)) {
-            errors.password = 'Password must contain at least one lowercase letter, one uppercase letter, a number and a special character';
-        }
-
-        if (!values.confirmPassword) {
-            errors.confirmPassword = 'Required';
-        } else if (values.confirmPassword !== values.password) {
-            errors.confirmPassword = 'Password must match';
-        }
-
-        return errors;
-    };
-
-    const onSubmit = async (values: SignUpFormValues) => {
-        try {
-            const apiUrl = import.meta.env.VITE_API_URL;
-            await axios.post(`${apiUrl}/auth/register`, values);
-            navigate("/login");
-        } catch (error) {
-            console.error("Error submitting the form data: " + error);
-        }
-
-    }
-
-    return (
-        <Formik
-            initialValues={initialValues}
-            validate={validate}
-            onSubmit={onSubmit}
-            validateOnBlur={false}
-            validateOnChange={false}
-        >{({ isSubmitting }) => ( 
-            <Form>
-                <CustomInput type="name" label="Name" name="name" />
-                <CustomInput type="email" label="Email" name="email" />
-                <CustomInput type="password" label="Password" name="password" />
-                <CustomInput type="password" label="Confirm Password" name="confirmPassword" />
-                <button type='submit' className='bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300' disabled={isSubmitting}>Submit</button>
-            </Form>)}
-        </Formik>
-    )
-}
+export default SignupForm;

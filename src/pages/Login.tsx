@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
 import Form from "../components/Form";
 
-export default function Login() {
+const Login: React.FC = () => {
   return (
     <Form formTitle="Login Form">
       <LoginForm />
@@ -15,3 +15,5 @@ export default function Login() {
     </Form>
   );
 }
+
+export default Login;

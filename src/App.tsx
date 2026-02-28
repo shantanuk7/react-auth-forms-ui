@@ -2,7 +2,7 @@ import "./App.css";
 import UserContextProvider from "./context/UserContextProvider";
 import AppRoutes from "./routes/AppRoutes";
 
-function App() {
+const App: React.FC = () => {
   return (
     <UserContextProvider>
       <AppRoutes />
