@@ -4,3 +4,14 @@ export type SignUpFormValues = {
   password: string
   confirmPassword: string
 }
+
+export type LoginFormValues = {
+  email: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  data: {
+    token: string;
+  };
+};
