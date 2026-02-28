@@ -9,7 +9,7 @@ interface TicketsTableItemProps {
 }
 
 const TicketsTableItem: React.FC<TicketsTableItemProps> = ({index, id, title, status, createdAt}) => {
-    return <tr className="text-sm hover:bg-teal-50 border-b border-gray-400">
+    return <tr className="text-sm hover:bg-teal-50 border-b border-gray-300">
             <td className="py-2 px-4">{index}</td>
             <td className="py-2 px-4">{title}</td>
             <td className="py-2 px-4">{status}</td>

@@ -6,28 +6,29 @@ const headers = [
     { id: 'title', label: 'Title' },
     { id: 'status', label: 'Status' },
     { id: 'createdAt', label: 'Created At' },
-    { id: 'action', label: 'Action' },
 ];
+
 const TicketsTable: React.FC = () => {
     const { tickets, loading } = useTickets();
 
-    if (loading) return <div className="text-center py-8 text-gray-500">Loading...</div>;
+    if (loading) return <p>Loading...</p>;
 
-    if (!tickets.length) return <div className="text-center py-8 text-gray-500">No tickets found.</div>;
+    if (tickets.length === 0) return <p>No tickets found.</p>;
 
     return (
-        <div className="overflow-x-auto rounded-lg shadow border border-gray-200">
-            <table className="min-w-full bg-white">
-                <thead className="bg-gray-50">
+        <div>
+            <table className="min-w-full bg-white border border-gray-300">
+                <thead>
                     <tr>
                         {headers.map(header => (
-                            <th key={header.id} className="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">
+                            <th key={header.id} className="py-2 px-4 border-b border-gray-300 text-left text-sm font-semibold text-gray-700">
                                 {header.label}
                             </th>
                         ))}
+                        <th className="py-2 px-4 border-b text-left border-gray-200 text-sm font-semibold text-gray-700">Action</th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody>
                     {tickets.map((ticket, index) => (
                         <TicketsTableItem
                             key={ticket.id}
