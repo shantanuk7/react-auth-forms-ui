@@ -1,5 +1,5 @@
 import "./App.css";
-import ToastEmitter from "./components/common/ToastEmitter";
+import ToastEmitter from "./components/ui/ToastEmitter";
 import UserContextProvider from "./context/UserContextProvider";
 import AppRoutes from "./routes/AppRoutes";
 
