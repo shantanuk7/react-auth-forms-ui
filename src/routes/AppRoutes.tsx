@@ -11,7 +11,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Home />} />
-        <Route path="/create-ticket" element={<CreateTicket />} />
+        <Route path="/tickets/create" element={<CreateTicket />} />
       </Route>
 
       <Route path="/signup" element={<Signup />} />
