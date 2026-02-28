@@ -8,7 +8,7 @@ const Dashboard: React.FC= () => {
     const navigate = useNavigate();
 
     const handleCreateTicket = () => {
-        navigate("/create-ticket");
+        navigate("/tickets/create");
     }
 
     return <div className="mx-auto container py-4">
