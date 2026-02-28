@@ -16,7 +16,7 @@ const LoginForm: React.FC = () => {
     if (token) {
       navigate("/");
     }
-  }, [token, navigate]);
+  }, []);
 
   const initialValues: LoginFormValues = {
     email: "",
