@@ -15,7 +15,8 @@ const CustomInput: React.FC<CustomInputProps> = (props: CustomInputProps) => {
             name={name}
             id={name}
             type={type}
-            className="mt-1 w-full rounded-md border border-gray-200 bg-white shadow-sm sm:text-sm p-2"
+            as={type === "textarea" ? "textarea" : "input"}
+            className={`mt-1 w-full rounded-md border border-gray-200 bg-white shadow-sm sm:text-sm p-2`}
          />
          <ErrorMessage name={name} component="div" className='text-red-700 text-sm'/> 
       </div>
