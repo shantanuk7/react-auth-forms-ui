@@ -1,9 +1,20 @@
-import { Form, Formik } from 'formik'
-import CustomInput from '../components/CustomInput'
-import { useContext, useEffect } from 'react'
-import UserContext from '../context/UserContext'
+import { Form, Formik, FormikErrors, FormikHelpers } from 'formik'
+import CustomInput from './CustomInput'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useUserContext } from '../hooks/useUserContext'
+
+type LoginFormValues = {
+    email: string,
+    password: string
+}
+
+type LoginResponse = {
+    data: {
+        token: string;
+    }
+}
 
 export default function LoginForm() {
 
@@ -13,7 +24,7 @@ export default function LoginForm() {
     }
     
     const navigate = useNavigate()
-    const { token, setToken } = useContext(UserContext);
+    const { token, setToken } = useUserContext();
 
     useEffect(()=>{
         if(token){
@@ -21,8 +32,8 @@ export default function LoginForm() {
         }
     })
 
-    const validate = (values) => {
-        const errors = {}   
+    const validate = (values: LoginFormValues) => {
+        const errors: FormikErrors<LoginFormValues> = {}   
 
         if (!values.email) {
             errors.email = 'Required'
@@ -37,14 +48,14 @@ export default function LoginForm() {
         return errors
     }
 
-    const onSubmit = async (values, { setErrors }) => {
+    const onSubmit = async (values: LoginFormValues, { setErrors }: FormikHelpers<LoginFormValues>) => {
         try {
             const apiUrl = import.meta.env.VITE_API_URL;
             const payload = {
                 email: values.email,
                 password: values.password
             }
-            const response = await axios.post(`${apiUrl}/auth/login`, payload);
+            const response = await axios.post<LoginResponse>(`${apiUrl}/auth/login`, payload);
 
             const token = response.data.data.token;
             localStorage.setItem("token", token);
@@ -52,12 +63,12 @@ export default function LoginForm() {
 
             setToken(token);
                 navigate("/");
-        } catch (error) {
-            console.error("Error submitting the form data: " + error);
-            if(error?.response?.status === 401) {
-                setErrors({password: "Invalid email or password"});
+            } catch (error) {
+                console.error("Error submitting the form data: " + error);
+                if(axios.isAxiosError(error) && error.response?.status === 401) {
+                    setErrors({password: "Invalid email or password"});
+                }
             }
-        }
     }
 
     return (

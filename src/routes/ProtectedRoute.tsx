@@ -1,9 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
-import UserContext from "../context/UserContext";
-import { useContext } from "react";
+import { useUserContext } from "../hooks/useUserContext";
 
 export const ProtectedRoute = () => {
-  const { token } = useContext(UserContext);
+  const { token } = useUserContext();
 
   if (!token) {
     return <Navigate to="/login" replace />;

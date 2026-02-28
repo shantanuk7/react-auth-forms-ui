@@ -1,8 +1,14 @@
-import { ErrorMessage, Form, Formik, } from 'formik'
-import CustomInput from '../components/CustomInput'
-import UserContext from '../context/UserContext';
+import { ErrorMessage, Form, Formik, FormikErrors} from 'formik'
+import CustomInput from './CustomInput'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+type SignUpFormValues = {
+    name: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+}
 
 export default function SignupForm() {
 
@@ -15,8 +21,8 @@ export default function SignupForm() {
 
     const navigate = useNavigate();
 
-    const validate = (values) => {
-        const errors = {};
+    const validate = (values: SignUpFormValues) => {
+        const errors: FormikErrors<SignUpFormValues> = {};
         const maxNameLength = 100;
         const minNameLength = 3;
 
@@ -49,7 +55,7 @@ export default function SignupForm() {
         return errors;
     };
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: SignUpFormValues) => {
         try {
             const apiUrl = import.meta.env.VITE_API_URL;
             await axios.post(`${apiUrl}/auth/register`, values);
