@@ -6,7 +6,7 @@ type CustomInputProps = {
    type: string;
 }
 
-const CustomInput = (props: CustomInputProps) => {
+const CustomInput: React.FC<CustomInputProps> = (props: CustomInputProps) => {
    const { label, name, type } = props
    return (
       <div className="my-2">
