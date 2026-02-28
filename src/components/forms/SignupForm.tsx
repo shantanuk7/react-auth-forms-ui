@@ -1,9 +1,11 @@
 import { Formik, Form, FormikProps } from "formik";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "./CustomInput";
-import { validateSignup } from "../utils/auth.validations";
-import { registerUser } from "../services/auth.service";
-import { SignUpFormValues } from "../types/auth.types";
+import { validateSignup } from "../../utils/auth.validations";
+import { registerUser } from "../../services/auth.service";
+import { SignUpFormValues } from "../../types/auth.types";
+import { toast } from 'react-toastify';
+import { AxiosError } from "axios";
 
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
@@ -18,9 +20,16 @@ const SignupForm: React.FC = () => {
   const onSubmit = async (values: SignUpFormValues) => {
     try {
       await registerUser(values);
-      navigate("/login");
-    } catch (error) {
+      toast.success("Registration successful! Please login.");
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (error: unknown) {
       console.error(error);
+
+      if (error instanceof AxiosError && error.response?.status === 409) {
+        toast.error("User already exists");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -33,7 +42,7 @@ const SignupForm: React.FC = () => {
       validateOnChange={false}
     >
       {({ isSubmitting }) => (
-        <Form>
+        <Form noValidate>
           <CustomInput type="text" label="Name" name="name" />
           <CustomInput type="email" label="Email" name="email" />
           <CustomInput type="password" label="Password" name="password" />

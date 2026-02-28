@@ -1,4 +1,5 @@
 import { FormikErrors } from "formik";
+import * as yup from "yup";
 import { CreateTicketFormValues } from "../types/ticket.types";
 
 export const validateCreateTicket = (
@@ -11,8 +12,8 @@ export const validateCreateTicket = (
     const maxDescriptionLength = 1000;
     const minDescriptionLength = 1;
 
-    if (!values.title) {
-        errors.title = "Required";
+    if (!values.title) {    
+        errors.title = "Title is Required";
     } else if (values.title.length > maxTitleLength) {
         errors.title = `Title must be less than ${maxTitleLength} characters`;
     } else if (values.title.length < minTitleLength) {
@@ -20,7 +21,7 @@ export const validateCreateTicket = (
     }
 
     if (!values.description) {
-        errors.description = "Required";
+        errors.description = "Description is Required";
     } else if (values.description.length > maxDescriptionLength) {
         errors.description = `Description must be less than ${maxDescriptionLength} characters`;
     } else if (values.description.length < minDescriptionLength) {
