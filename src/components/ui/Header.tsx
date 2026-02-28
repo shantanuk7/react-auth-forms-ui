@@ -3,7 +3,7 @@ import logout from "../../utils/auth.logout";
 
 const Header: React.FC= () => {
     return <header className="bg-teal-800 p-4 text-white shadow-lg">
-        <div className="mx-auto flex justify-between items-center">
+        <div className="container mx-auto flex justify-between items-center">
             <h1 className="text-md font-medium">Customer Support System</h1>
             <nav>
                 <ul className="flex space-x-4">
