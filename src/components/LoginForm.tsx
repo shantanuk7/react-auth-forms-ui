@@ -6,7 +6,8 @@ import { useUserContext } from "../hooks/useUserContext";
 import { LoginFormValues } from "../types/auth.types";
 import { validateLogin } from "../utils/auth.validations";
 import { loginUser } from "../services/auth.service";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { Bounce, toast } from "react-toastify";
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
@@ -24,22 +25,22 @@ const LoginForm: React.FC = () => {
   };
 
   const onSubmit = async (
-    values: LoginFormValues,
-    { setErrors }: FormikHelpers<LoginFormValues>
+    values: LoginFormValues
   ) => {
     try {
       const response = await loginUser(values);
 
       const token = response.data.data.token;
       localStorage.setItem("token", token);
-
       setToken(token);
-      navigate("/");
+
+      toast.success("Successfully logged in.");
+      setTimeout(() => navigate("/"), 2000);
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 401) {
-        setErrors({ password: "Invalid email or password" });
+      if(error instanceof AxiosError && error.response?.status === 401) {
+        toast.error("Invalid email or password");
       } else {
-        console.error(error);
+        toast.error("Something went wrong. Please try again.");
       }
     }
   };
@@ -53,7 +54,7 @@ const LoginForm: React.FC = () => {
       validateOnChange={false}
     >
       {({ isSubmitting }) => (
-        <Form>
+        <Form noValidate>
           <CustomInput type="email" label="Email" name="email" />
           <CustomInput type="password" label="Password" name="password" />
           <button
