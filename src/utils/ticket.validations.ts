@@ -1,5 +1,4 @@
 import { FormikErrors } from "formik";
-import * as yup from "yup";
 import { CreateTicketFormValues } from "../types/ticket.types";
 
 export const validateCreateTicket = (

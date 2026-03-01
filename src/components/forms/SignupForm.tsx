@@ -1,4 +1,4 @@
-import { Formik, Form, FormikProps } from "formik";
+import { Formik, Form } from "formik";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "./CustomInput";
 import { validateSignup } from "../../utils/auth.validations";

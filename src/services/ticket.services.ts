@@ -19,33 +19,33 @@ interface UpdateTicketPayload {
     status?: string;
 }
 
-export const createTicket = async (values: CreateTicketFormValues, token: string ) => {
+export const createTicket = async (values: CreateTicketFormValues) => {
     return api.post("/tickets", values);
 };
 
-export const getTickets = async (token: string) => {
+export const getTickets = async () => {
     const response: AxiosResponse<getTicketsResponse> = await api.get("/tickets");
 
     return response.data;
 };
 
-export const getSingleTicket = async (token: string, ticketId: string) => {
+export const getSingleTicket = async (ticketId: string) => {
     const response: AxiosResponse<getSingleTicketResponse> = await api.get(`/tickets/${ticketId}`);
 
     return response.data.data;
 };
 
-export const updateTicket = async (token: string, ticketId: string, payload: UpdateTicketPayload) => {
+export const updateTicket = async (ticketId: string, payload: UpdateTicketPayload) => {
     const response: AxiosResponse = await api.patch(`/tickets/${ticketId}`, payload);
     return response.data.data;
 };
 
-export const getComments = async (token: string, ticketId: string) => {
+export const getComments = async (ticketId: string) => {
     const response: AxiosResponse = await api.get(`/tickets/${ticketId}/comments`);
     return response.data.data;
 };
 
-export const addComment = async (token: string, ticketId: string, comment: string) => {
+export const addComment = async (ticketId: string, comment: string) => {
     const response: AxiosResponse = await api.post(`/tickets/${ticketId}/comments`, { body: comment });
     return response.data.data;
 };

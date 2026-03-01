@@ -15,8 +15,7 @@ const Ticket: React.FC = () => {
   useEffect(() => {
     const fetchTicket = async () => {
       try {
-        const token = localStorage.getItem("token")!;
-        const response = await getSingleTicket(token, id!);
+        const response = await getSingleTicket(id!);
         setTicket(response);
       } catch (error) {
         console.error(error);
@@ -27,8 +26,7 @@ const Ticket: React.FC = () => {
 
   const handleCloseTicket = async () => {
     try {
-      const token = localStorage.getItem("token")!;
-      await updateTicket(token, id!, { status: "CLOSED" });
+      await updateTicket(id!, { status: "CLOSED" });
       setTicket(prev => prev ? { ...prev, status: "CLOSED" } : prev);
     } catch (error) {
       console.error(error);

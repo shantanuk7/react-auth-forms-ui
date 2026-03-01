@@ -5,13 +5,12 @@ import TicketContext from "./TicketContext";
 
 const TicketContextProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const fetchTickets = async () => {
         setLoading(true);
         try {
-            const token = localStorage.getItem("token")!;
-            const response = await getTickets(token);
+            const response = await getTickets();
             setTickets(response.data);
         } catch (error) {
             console.error(error);

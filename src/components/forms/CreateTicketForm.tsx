@@ -1,5 +1,4 @@
 import { Form, Formik, FormikHelpers } from "formik";
-import { useState } from "react";
 import CustomInput from "./CustomInput";
 import { CreateTicketFormValues } from "../../types/ticket.types";
 import { validateCreateTicket } from "../../utils/ticket.validations";
@@ -27,7 +26,7 @@ const CreateTicketForm: React.FC = () => {
         try {
             const token = localStorage.getItem("token")!;
             
-            const response = await createTicket(values, token);
+            const response = await createTicket(values);
 
             if (response.status === 201) {
                 toast.success("Ticket created successfully!");
