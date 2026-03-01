@@ -1,32 +1,47 @@
-import Form from "../components/forms/Form";
 import TicketDetails from "../components/TicketDetails";
 import ActionButton from "../components/ui/ActionButton";
 import Header from "../components/ui/Header";
 import PageHeader from "../components/ui/PageHeader";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getSingleTicket } from "../services/ticket.services";
+import { Ticket as TicketType } from "../types/ticket.types";
 
 const Ticket: React.FC = () => {
+  const [ticket, setTicket] = useState<TicketType | null>(null);
+  const { id } = useParams();
 
-  const handleEditDescription = ()=>{
-    alert("click")
-  }
+  useEffect(() => {
+    const fetchTicket = async () => {
+      try {
+        const token = localStorage.getItem("token")!;
+        const response = await getSingleTicket(token, id!);
+        setTicket(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTicket();
+  }, [id]);
 
-  const handleCloseTicket = ()=>{
-    alert("click")
-  }
+  const isClosed = ticket?.status === "CLOSED";
 
-  return (<div>
-      <Header/>
+  const handleEditDescription = () => alert("click");
+  const handleCloseTicket = () => alert("click");
+
+  return (
+    <div>
+      <Header />
       <div className="mx-auto container py-4">
         <PageHeader
-          title="Ticket Details"
-          primaryAction={<ActionButton title="Close Ticket" action={handleEditDescription} type="primary"/>}
-          secondaryAction={<ActionButton title="Edit Description" action={handleCloseTicket} type="secondary"/>}
+          title={ticket?.title!}
+          primaryAction={!isClosed && <ActionButton title="Close Ticket" action={handleCloseTicket} type="primary" />}
+          secondaryAction={!isClosed && <ActionButton title="Edit Description" action={handleEditDescription} type="secondary" />}
         />
-
-        <TicketDetails/>
+        <TicketDetails ticket={ticket} />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Ticket;

@@ -41,3 +41,13 @@ export const getSingleTicket = async (token: string, ticketId: string) => {
 
     return response.data.data;
 };
+
+export const updateTicket = async (token: string, ticketId: string) => {
+    const response: AxiosResponse = await api.patch(`/tickets/${ticketId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return response.data.data;
+};
