@@ -14,30 +14,28 @@ interface getSingleTicketResponse {
     data: Ticket
 }
 
+interface UpdateTicketPayload {
+    description?: string;
+    status?: string;
+}
+
 export const createTicket = async (values: CreateTicketFormValues, token: string ) => {
-    return api.post("/tickets", values, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    return api.post("/tickets", values);
 };
 
 export const getTickets = async (token: string) => {
-    const response: AxiosResponse<getTicketsResponse> = await api.get("/tickets", {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    const response: AxiosResponse<getTicketsResponse> = await api.get("/tickets");
 
     return response.data;
 };
 
 export const getSingleTicket = async (token: string, ticketId: string) => {
-    const response: AxiosResponse<getSingleTicketResponse> = await api.get(`/tickets/${ticketId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    const response: AxiosResponse<getSingleTicketResponse> = await api.get(`/tickets/${ticketId}`);
 
+    return response.data.data;
+};
+
+export const updateTicket = async (token: string, ticketId: string, payload: UpdateTicketPayload) => {
+    const response: AxiosResponse = await api.patch(`/tickets/${ticketId}`, payload);
     return response.data.data;
 };

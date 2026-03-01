@@ -1,32 +1,53 @@
-import Form from "../components/forms/Form";
 import TicketDetails from "../components/TicketDetails";
 import ActionButton from "../components/ui/ActionButton";
 import Header from "../components/ui/Header";
 import PageHeader from "../components/ui/PageHeader";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getSingleTicket, updateTicket } from "../services/ticket.services";
+import { Ticket as TicketType } from "../types/ticket.types";
 
 const Ticket: React.FC = () => {
+  const [ticket, setTicket] = useState<TicketType | null>(null);
+  const { id } = useParams();
 
-  const handleEditDescription = ()=>{
-    alert("click")
-  }
+  useEffect(() => {
+    const fetchTicket = async () => {
+      try {
+        const token = localStorage.getItem("token")!;
+        const response = await getSingleTicket(token, id!);
+        setTicket(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTicket();
+  }, [id]);
 
-  const handleCloseTicket = ()=>{
-    alert("click")
-  }
+  const handleCloseTicket = async () => {
+    try {
+      const token = localStorage.getItem("token")!;
+      await updateTicket(token, id!, { status: "CLOSED" });
+      setTicket(prev => prev ? { ...prev, status: "CLOSED" } : prev);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  return (<div>
-      <Header/>
+  const isClosed = ticket?.status === "CLOSED";
+
+  return (
+    <div>
+      <Header />
       <div className="mx-auto container py-4">
         <PageHeader
           title="Ticket Details"
-          primaryAction={<ActionButton title="Close Ticket" action={handleEditDescription} type="primary"/>}
-          secondaryAction={<ActionButton title="Edit Description" action={handleCloseTicket} type="secondary"/>}
+          primaryAction={!isClosed && <ActionButton title="Close Ticket" action={handleCloseTicket} type="primary" />}
         />
-
-        <TicketDetails/>
+        <TicketDetails ticket={ticket} />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Ticket;
