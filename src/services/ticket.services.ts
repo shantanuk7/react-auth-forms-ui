@@ -39,3 +39,13 @@ export const updateTicket = async (token: string, ticketId: string, payload: Upd
     const response: AxiosResponse = await api.patch(`/tickets/${ticketId}`, payload);
     return response.data.data;
 };
+
+export const getComments = async (token: string, ticketId: string) => {
+    const response: AxiosResponse = await api.get(`/tickets/${ticketId}/comments`);
+    return response.data.data;
+};
+
+export const addComment = async (token: string, ticketId: string, comment: string) => {
+    const response: AxiosResponse = await api.post(`/tickets/${ticketId}/comments`, { body: comment });
+    return response.data.data;
+};

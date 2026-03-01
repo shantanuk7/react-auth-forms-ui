@@ -1,4 +1,4 @@
-import { Ticket } from "../types/ticket.types";
+import { Ticket } from "../../types/ticket.types";
 
 interface Props {
     ticket: Ticket | null;
