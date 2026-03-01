@@ -19,15 +19,27 @@ interface Props {
 }
 
 const Comments: React.FC<Props> = ({ticketStatus}) => {
+    const [comments, setComments] = useState<Comment[]>([]);
     const { id } = useParams();
 
     const initialValues: CommentInput = {
         comment: ""
     }
 
+    const fetchComments = async () => {
+        const token = localStorage.getItem("token")!;
+        const data = await getComments(token, id!);
+        setComments(data);
+    };
+
+    useEffect(() => {
+        fetchComments();
+    }, []);
+
     const handleSubmit = async (values: { comment: string }, { resetForm }: FormikHelpers<CommentInput>) => {
         const token = localStorage.getItem("token")!;
         await addComment(token, id!, values.comment);
+        await fetchComments();
 
         resetForm();
     };
@@ -35,6 +47,26 @@ const Comments: React.FC<Props> = ({ticketStatus}) => {
     return (
         <div className="mt-4">
             <h2 className="text-md text-gray-600 font-medium mb-2">Comments</h2>
+
+            <div className="">
+                {comments.map(comment => (
+                    <div key={comment.id} className="py-3 flex flex-col mb-2">
+                        <div className="flex justify-between">
+                            <span className="text-xs text-gray-500">{comment.commenter}</span>
+                            <span className="text-xs text-gray-500">
+                                {new Date(comment.createdAt).toLocaleString("en-IN", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                })}
+                            </span>
+                        </div>
+                        <p className="text-sm text-gray-700">{comment.comment}</p>
+                    </div>
+                ))}
+            </div>
             
             {ticketStatus !== "CLOSED" ?
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
