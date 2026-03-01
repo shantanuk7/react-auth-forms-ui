@@ -1,10 +1,10 @@
-import { Formik, Form, FormikProps } from "formik";
+import { Formik, Form } from "formik";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "./CustomInput";
 import { validateSignup } from "../../utils/auth.validations";
 import { registerUser } from "../../services/auth.service";
 import { SignUpFormValues } from "../../types/auth.types";
-import { toast } from 'react-toastify';
+import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
 const SignupForm: React.FC = () => {
@@ -38,7 +38,7 @@ const SignupForm: React.FC = () => {
       initialValues={initialValues}
       validate={validateSignup}
       onSubmit={onSubmit}
-      validateOnBlur={false}
+      validateOnBlur={true}
       validateOnChange={false}
     >
       {({ isSubmitting }) => (
@@ -52,7 +52,7 @@ const SignupForm: React.FC = () => {
             name="confirmPassword"
           />
           <button
-            className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
+            className="bg-teal-600 text-white p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-teal-500"
             type="submit"
             disabled={isSubmitting}
           >

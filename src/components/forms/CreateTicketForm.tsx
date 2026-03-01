@@ -1,10 +1,9 @@
 import { Form, Formik, FormikHelpers } from "formik";
-import { useState } from "react";
 import CustomInput from "./CustomInput";
 import { CreateTicketFormValues } from "../../types/ticket.types";
 import { validateCreateTicket } from "../../utils/ticket.validations";
 import { createTicket } from "../../services/ticket.services";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -24,10 +23,8 @@ const CreateTicketForm: React.FC = () => {
         values: CreateTicketFormValues,
         { resetForm }: FormikHelpers<CreateTicketFormValues>
     ) => {
-        try {
-            const token = localStorage.getItem("token")!;
-            
-            const response = await createTicket(values, token);
+        try {            
+            const response = await createTicket(values);
 
             if (response.status === 201) {
                 toast.success("Ticket created successfully!");
@@ -45,7 +42,7 @@ const CreateTicketForm: React.FC = () => {
             initialValues={initialValues}
             validate={validateCreateTicket}
             onSubmit={onSubmit}
-            validateOnBlur={false}
+            validateOnBlur={true}
             validateOnChange={false}
         >
             {({ isSubmitting }) => (
@@ -62,7 +59,7 @@ const CreateTicketForm: React.FC = () => {
                     />
                     <button
                         type="submit"
-                        className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
+                        className="bg-teal-600 text-white p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-teal-500"
                         disabled={isSubmitting}
                     >
                         Submit

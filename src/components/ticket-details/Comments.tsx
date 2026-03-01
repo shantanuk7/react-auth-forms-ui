@@ -27,8 +27,7 @@ const Comments: React.FC<Props> = ({ticketStatus}) => {
     }
 
     const fetchComments = async () => {
-        const token = localStorage.getItem("token")!;
-        const data = await getComments(token, id!);
+        const data = await getComments(id!);
         setComments(data);
     };
 
@@ -37,8 +36,7 @@ const Comments: React.FC<Props> = ({ticketStatus}) => {
     }, []);
 
     const handleSubmit = async (values: { comment: string }, { resetForm }: FormikHelpers<CommentInput>) => {
-        const token = localStorage.getItem("token")!;
-        await addComment(token, id!, values.comment);
+        await addComment(id!, values.comment);
         await fetchComments();
 
         resetForm();

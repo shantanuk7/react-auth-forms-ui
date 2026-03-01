@@ -1,4 +1,4 @@
-import { Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik } from "formik";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "./CustomInput";
@@ -6,8 +6,8 @@ import { useUserContext } from "../../hooks/useUserContext";
 import { LoginFormValues } from "../../types/auth.types";
 import { validateLogin } from "../../utils/auth.validations";
 import { loginUser } from "../../services/auth.service";
-import axios, { AxiosError } from "axios";
-import { Bounce, toast } from "react-toastify";
+import { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
       initialValues={initialValues}
       validate={validateLogin}
       onSubmit={onSubmit}
-      validateOnBlur={false}
+      validateOnBlur={true}
       validateOnChange={false}
     >
       {({ isSubmitting }) => (
@@ -59,7 +59,7 @@ const LoginForm: React.FC = () => {
           <CustomInput type="password" label="Password" name="password" />
           <button
             type="submit"
-            className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
+            className="bg-teal-600 text-white p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-teal-500"
             disabled={isSubmitting}
           >
             Login
