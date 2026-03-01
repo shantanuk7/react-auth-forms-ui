@@ -1,12 +1,20 @@
 interface ActionButtonProps {
     title: string;
-    action?: () => void;
+    type: "primary" | "secondary";
+    action: () => void;
 }
 
-const ActionButton: React.FC<ActionButtonProps> = ({title, action}: ActionButtonProps) => {
-    return <button className="border border-teal-700 p-2 rounded-sm text-sm text-teal-700 hover:bg-teal-700 hover:text-white cursor-pointer" onClick={action}>
-        {title}
-    </button>
-}
+const styles = {
+    primary: "bg-teal-700 text-white text-sm p-2 rounded-sm cursor-pointer hover:bg-teal-800",
+    secondary: "border border-teal-700 text-teal-700 text-sm p-2 rounded-sm cursor-pointer hover:bg-teal-50",
+};
+
+const ActionButton: React.FC<ActionButtonProps> = ({ title, type, action }) => {
+    return (
+        <button className={styles[type]} onClick={action}>
+            {title}
+        </button>
+    );
+};
 
 export default ActionButton;
