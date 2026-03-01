@@ -4,7 +4,7 @@ import Header from "../components/ui/Header";
 import PageHeader from "../components/ui/PageHeader";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleTicket } from "../services/ticket.services";
+import { getSingleTicket, updateTicket } from "../services/ticket.services";
 import { Ticket as TicketType } from "../types/ticket.types";
 
 const Ticket: React.FC = () => {
@@ -24,19 +24,25 @@ const Ticket: React.FC = () => {
     fetchTicket();
   }, [id]);
 
-  const isClosed = ticket?.status === "CLOSED";
+  const handleCloseTicket = async () => {
+    try {
+      const token = localStorage.getItem("token")!;
+      await updateTicket(token, id!, { status: "CLOSED" });
+      setTicket(prev => prev ? { ...prev, status: "CLOSED" } : prev);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  const handleEditDescription = () => alert("click");
-  const handleCloseTicket = () => alert("click");
+  const isClosed = ticket?.status === "CLOSED";
 
   return (
     <div>
       <Header />
       <div className="mx-auto container py-4">
         <PageHeader
-          title={ticket?.title!}
+          title="Ticket Details"
           primaryAction={!isClosed && <ActionButton title="Close Ticket" action={handleCloseTicket} type="primary" />}
-          secondaryAction={!isClosed && <ActionButton title="Edit Description" action={handleEditDescription} type="secondary" />}
         />
         <TicketDetails ticket={ticket} />
       </div>

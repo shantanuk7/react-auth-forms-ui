@@ -14,6 +14,11 @@ interface getSingleTicketResponse {
     data: Ticket
 }
 
+interface UpdateTicketPayload {
+    description?: string;
+    status?: string;
+}
+
 export const createTicket = async (values: CreateTicketFormValues, token: string ) => {
     return api.post("/tickets", values);
 };
@@ -30,8 +35,7 @@ export const getSingleTicket = async (token: string, ticketId: string) => {
     return response.data.data;
 };
 
-export const updateTicket = async (token: string, ticketId: string) => {
-    const response: AxiosResponse = await api.patch(`/tickets/${ticketId}`);
-
+export const updateTicket = async (token: string, ticketId: string, payload: UpdateTicketPayload) => {
+    const response: AxiosResponse = await api.patch(`/tickets/${ticketId}`, payload);
     return response.data.data;
 };
