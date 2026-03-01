@@ -23,9 +23,7 @@ const CreateTicketForm: React.FC = () => {
         values: CreateTicketFormValues,
         { resetForm }: FormikHelpers<CreateTicketFormValues>
     ) => {
-        try {
-            const token = localStorage.getItem("token")!;
-            
+        try {            
             const response = await createTicket(values);
 
             if (response.status === 201) {
@@ -44,7 +42,7 @@ const CreateTicketForm: React.FC = () => {
             initialValues={initialValues}
             validate={validateCreateTicket}
             onSubmit={onSubmit}
-            validateOnBlur={false}
+            validateOnBlur={true}
             validateOnChange={false}
         >
             {({ isSubmitting }) => (
@@ -61,7 +59,7 @@ const CreateTicketForm: React.FC = () => {
                     />
                     <button
                         type="submit"
-                        className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
+                        className="bg-teal-600 text-white p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-teal-500"
                         disabled={isSubmitting}
                     >
                         Submit

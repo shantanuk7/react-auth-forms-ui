@@ -38,7 +38,7 @@ const SignupForm: React.FC = () => {
       initialValues={initialValues}
       validate={validateSignup}
       onSubmit={onSubmit}
-      validateOnBlur={false}
+      validateOnBlur={true}
       validateOnChange={false}
     >
       {({ isSubmitting }) => (
@@ -52,7 +52,7 @@ const SignupForm: React.FC = () => {
             name="confirmPassword"
           />
           <button
-            className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
+            className="bg-teal-600 text-white p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-teal-500"
             type="submit"
             disabled={isSubmitting}
           >

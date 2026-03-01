@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
       initialValues={initialValues}
       validate={validateLogin}
       onSubmit={onSubmit}
-      validateOnBlur={false}
+      validateOnBlur={true}
       validateOnChange={false}
     >
       {({ isSubmitting }) => (
@@ -59,7 +59,7 @@ const LoginForm: React.FC = () => {
           <CustomInput type="password" label="Password" name="password" />
           <button
             type="submit"
-            className="bg-amber-400 p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-amber-300"
+            className="bg-teal-600 text-white p-2 mt-2 rounded-md w-full hover:cursor-pointer hover:bg-teal-500"
             disabled={isSubmitting}
           >
             Login
