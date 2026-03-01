@@ -12,7 +12,7 @@ const Dashboard: React.FC= () => {
     }
 
     return <div className="mx-auto container py-4">
-        <PageHeader title="My Tickets" action={<ActionButton title="Create Ticket" action={handleCreateTicket} />} />
+        <PageHeader title="My Tickets" primaryAction={<ActionButton title="Create Ticket" action={handleCreateTicket} type="primary" />} />
         <TicketsTable/>
     </div>
 }

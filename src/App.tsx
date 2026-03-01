@@ -7,10 +7,8 @@ import AppRoutes from "./routes/AppRoutes";
 const App: React.FC = () => {
   return (
     <UserContextProvider>
-      <TicketContextProvider>
         <AppRoutes />
         <ToastEmitter />
-      </TicketContextProvider>
     </UserContextProvider>
   );
 }

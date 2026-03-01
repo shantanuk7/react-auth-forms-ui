@@ -8,6 +8,12 @@ interface getTicketsResponse {
     data: Ticket[]
 }
 
+interface getSingleTicketResponse {
+    success: boolean,
+    message: string,
+    data: Ticket
+}
+
 export const createTicket = async (values: CreateTicketFormValues, token: string ) => {
     return api.post("/tickets", values, {
         headers: {
@@ -24,4 +30,14 @@ export const getTickets = async (token: string) => {
     });
 
     return response.data;
+};
+
+export const getSingleTicket = async (token: string, ticketId: string) => {
+    const response: AxiosResponse<getSingleTicketResponse> = await api.get(`/tickets/${ticketId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return response.data.data;
 };
