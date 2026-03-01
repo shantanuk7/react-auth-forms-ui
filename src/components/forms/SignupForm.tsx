@@ -4,7 +4,7 @@ import CustomInput from "./CustomInput";
 import { validateSignup } from "../../utils/auth.validations";
 import { registerUser } from "../../services/auth.service";
 import { SignUpFormValues } from "../../types/auth.types";
-import { toast } from 'react-toastify';
+import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
 const SignupForm: React.FC = () => {

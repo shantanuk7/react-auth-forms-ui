@@ -7,7 +7,7 @@ import { LoginFormValues } from "../../types/auth.types";
 import { validateLogin } from "../../utils/auth.validations";
 import { loginUser } from "../../services/auth.service";
 import axios, { AxiosError } from "axios";
-import { Bounce, toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
