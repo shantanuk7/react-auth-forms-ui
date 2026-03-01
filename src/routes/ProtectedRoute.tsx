@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useUserContext } from "../hooks/useUserContext";
+import TicketContextProvider from "../context/TicketContextProvider";
 
 const ProtectedRoute: React.FC = () => {
   const { token } = useUserContext();
@@ -8,7 +9,9 @@ const ProtectedRoute: React.FC = () => {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return <TicketContextProvider>
+     <Outlet />
+  </TicketContextProvider>;
 };
 
 export { ProtectedRoute };
