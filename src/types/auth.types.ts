@@ -15,3 +15,9 @@ export type LoginResponse = {
     token: string;
   };
 };
+
+export interface User {
+  id: string;
+  email: string;
+  role: "CUSTOMER" | "SUPPORT_AGENT";
+}

@@ -7,3 +7,7 @@ export const registerUser = (values: SignUpFormValues): Promise<any> =>
 export const loginUser = async (values: LoginFormValues) => {
   return api.post<LoginResponse>("/auth/login", values);
 };
+
+export const getUserProfile = async () => {
+  return api.get("/users/me");
+};
