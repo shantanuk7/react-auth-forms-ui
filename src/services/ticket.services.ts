@@ -49,3 +49,9 @@ export const addComment = async (ticketId: string, comment: string) => {
     const response: AxiosResponse = await api.post(`/tickets/${ticketId}/comments`, { body: comment });
     return response.data.data;
 };
+
+export const assignTicket = async (ticketId: string, assignedBy: string, assignedTo: string) => 
+  await api.post(`/tickets/${ticketId}/assign`, {
+    assignedByUserId: assignedBy,
+    assignedToUserId: assignedTo
+  });

@@ -1,9 +1,5 @@
 import React from 'react';
-
-type User = {
-    email: String,
-    role: String
-}
+import { User } from '../types/auth.types';
 
 type UserContextType = {
     user: User | null;

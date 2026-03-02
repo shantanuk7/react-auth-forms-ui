@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserContext from "./UserContext";
 import { getUserProfile } from "../services/auth.service";
-
-type User = {
-    email: String,
-    role: String
-}
+import { User } from "../types/auth.types";
 
 type Props = {
     children: React.ReactNode;

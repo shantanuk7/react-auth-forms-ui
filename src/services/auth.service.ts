@@ -11,3 +11,5 @@ export const loginUser = async (values: LoginFormValues) => {
 export const getUserProfile = async () => {
   return api.get("/users/me");
 };
+
+export const getSupportAgents = async () => await api.get("/users?role=SUPPORT_AGENT");
