@@ -15,7 +15,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src", "vite-env.d.ts"]
 }
